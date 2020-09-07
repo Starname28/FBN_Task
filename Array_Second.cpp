@@ -5,10 +5,6 @@ Array_Second::Array_Second(const std::vector<int>& arr)
 
     : m_arr(arr), m_sumFirst(0), m_sumSecond(0)
 {
-    const size_t SIZE = m_arr.size() / 2;
-
-    m_firstArr.reserve(SIZE);
-    m_secondArr.reserve(SIZE);
 }
 
 Array_Second::~Array_Second()
@@ -35,14 +31,43 @@ int Array_Second::GetSumSecond() const
     return m_sumSecond;
 }
 
-void Array_Second::ArrayBreakdown()
+void Array_Second::ArrayBreakdownMain()
 {
-    std::vector<int> sortArr(m_arr);
-    std::sort(sortArr.rbegin(), sortArr.rend());
-    
-    for (const auto& member : sortArr)
+    std::vector<int> sortArrPositive;
+    std::vector<int> sortArrNegative;
+
+    for (const auto& el : m_arr)
     {
-        if (m_sumFirst < m_sumSecond || m_sumFirst == m_sumSecond)
+        if (el >= 0)
+            sortArrPositive.push_back(el);
+        else
+            sortArrNegative.push_back(el);
+    }
+
+    std::sort(sortArrPositive.rbegin(), sortArrPositive.rend());
+    std::sort(sortArrNegative.begin(), sortArrNegative.end());
+
+    ArrayBreakdown(sortArrPositive, true);
+    ArrayBreakdown(sortArrNegative, false);
+}
+
+bool Array_Second::IsPositive(const bool isPositive)
+{
+    if (isPositive)
+    {
+        return m_sumFirst <= m_sumSecond;
+    }
+    else
+    {
+        return m_sumFirst >= m_sumSecond;
+    }
+}
+
+void Array_Second::ArrayBreakdown(const std::vector<int>& arr, const bool isPositive)
+{
+    for (const auto& member : arr)
+    {
+        if (IsPositive(isPositive))
         {
             m_sumFirst += member;
             m_firstArr.emplace_back(member);

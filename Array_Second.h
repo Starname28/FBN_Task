@@ -13,7 +13,7 @@ public:
     int GetSumFirst() const;
     int GetSumSecond() const;
 
-    void ArrayBreakdown();
+    void ArrayBreakdownMain();
 
 private:
     const std::vector<int>& m_arr;
@@ -22,4 +22,7 @@ private:
     std::vector<int> m_secondArr;
 
     int m_sumFirst, m_sumSecond;
+
+    void ArrayBreakdown(const std::vector<int>& arr, const bool isPositive);
+    bool IsPositive(const bool isPositive);
 };
